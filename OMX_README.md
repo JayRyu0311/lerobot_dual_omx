@@ -57,23 +57,32 @@ OpenManipulator-X (OMX) 5+1 DOF 두 개를 사용하는 **Dual-Arm** 구성의
 ### 2-1. conda 환경 생성
 
 ```bash
-conda create -n omx python=3.10 -y
+# Python 3.12 (권장)
+conda create -n omx python=3.12 -y
+
+# 또는 Python 3.13 (현재 시스템과 동일)
+# conda create -n omx python=3.13 -y
+
 conda activate omx
 ```
 
-> Python 3.10 권장 (3.11+ 도 동작하지만 일부 패키지 빌드 시간이 늘어날 수 있음)
+> Python 3.12 / 3.13 모두 동작이 확인되었습니다.  
+> lerobot의 `Requires-Python: >=3.10` 조건을 만족합니다.
 
-### 2-2. PyTorch 설치 (CUDA 버전에 맞게 선택)
+### 2-2. PyTorch 설치
+
+> **Teleoperation만 할 경우에도 PyTorch가 필요합니다.**  
+> lerobot 0.3.4는 모터 제어 모듈(`lerobot.motors`)이 내부적으로  
+> `lerobot.utils.utils`를 import하고, 이 파일이 모듈 최상단에서  
+> `import torch`를 실행합니다. 기능상으론 불필요하지만 생략할 수 없습니다.  
+> Recording은 `LeRobotDataset`·`torchvision` 등에서 실제로 사용합니다.
 
 ```bash
-# CUDA 12.1
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+# CUDA 13.0 (현재 시스템)
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu130
 
-# CUDA 11.8
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
-
-# CPU only (개발·테스트용)
-pip install torch torchvision
+# CPU only (GPU 없는 환경 / 테스트용, 설치 용량이 훨씬 작음 ~300 MB)
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 ```
 
 ### 2-3. LeRobot 설치
@@ -82,7 +91,6 @@ pip install torch torchvision
 pip install lerobot
 ```
 
-LeRobot 0.3.x 이상이 설치됩니다.  
 설치 확인:
 
 ```bash
@@ -111,10 +119,12 @@ cd XLeRobot
 
 ```
 conda activate omx
-# 필수 패키지가 이미 설치된 상태:
-#   lerobot >= 0.3.4
+# 설치된 패키지:
+#   python       3.12 또는 3.13
+#   torch        (CUDA 13.0 또는 CPU)
+#   torchvision
+#   lerobot      >= 0.3.4
 #   dynamixel-sdk >= 4.0.0
-#   torch, torchvision
 ```
 
 ---
