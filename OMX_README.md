@@ -66,6 +66,15 @@ conda create -n omx python=3.12 -y
 conda activate omx
 ```
 
+```bash
+# Python 3.12 (권장)
+python3 -m venv ~/venv/xlerobot
+source ~/venv/xlerobot/bin/activate
+
+# 또는 Python 3.13 (현재 시스템과 동일)
+# conda create -n omx python=3.13 -y
+```
+
 > Python 3.12 / 3.13 모두 동작이 확인되었습니다.  
 > lerobot의 `Requires-Python: >=3.10` 조건을 만족합니다.
 
